@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5afd8cc0-3c18-4778-8555-c5ffea8033e3" name="Default Changelist" comment="feat(LeetCodeJava): add 1. Two Sum">
-      <change afterPath="$PROJECT_DIR$/../CXYLeetCodeGo/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../LeetCodeJava.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="5afd8cc0-3c18-4778-8555-c5ffea8033e3" name="Default Changelist" comment="feat(LeetCodeJava): add 1. Two Sum" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -84,19 +75,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="CLASS" />
-      <properties />
-      <listeners />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ValidAnagram" />
@@ -116,7 +94,7 @@
       <workItem from="1665365003444" duration="118000" />
       <workItem from="1665365167915" duration="258000" />
       <workItem from="1665365477144" duration="2304000" />
-      <workItem from="1665411875299" duration="8657000" />
+      <workItem from="1665411875299" duration="9206000" />
     </task>
     <task id="LOCAL-00001" summary="feat(LeetCodeJava): add previous work">
       <created>1665317062212</created>
