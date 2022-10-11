@@ -1,4 +1,4 @@
-package main
+package CXYLeetCodeGo
 
 import "fmt"
 import "rsc.io/quote"

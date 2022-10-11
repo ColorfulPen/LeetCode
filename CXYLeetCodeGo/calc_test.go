@@ -1,4 +1,4 @@
-package main
+package CXYLeetCodeGo
 
 import "testing"
 func TestAdd(t *testing.T){
