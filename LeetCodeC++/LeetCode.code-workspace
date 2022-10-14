@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "LeetCodeCPP",
+			"path": "../../LeetCodeColorPen/LeetCodeCPP"
+		}
+	],
+	"settings": {}
+}
