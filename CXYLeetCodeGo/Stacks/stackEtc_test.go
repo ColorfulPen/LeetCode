@@ -47,3 +47,36 @@ func removeDuplicates(s string) string {
 	}
 	return string(stack)
 }
+
+func evalRPN(tokens []string) int {
+	stack:=make([]int,0)
+	for _,v:=range tokens{
+		if v=="+"||v=="-"||v=="*"||v=="/"{
+			x1,x2:=stack[len(stack)-2],stack[len(stack)-1]
+			switch v {
+			case "+":
+				stack[len(stack)-2]=x1+x2
+			case "-":
+				stack[len(stack)-2]=x1-x2
+			case "*":
+				stack[len(stack)-2]=x1*x2
+			case "/":
+				stack[len(stack)-2]=x1/x2
+			}
+			stack=stack[:len(stack)-1]
+		}else{
+			sum,rate:=0,1
+			for i:=len(v)-1;i>=1;i--{
+				sum+=int(v[i]-'0')*rate
+				rate*=10
+			}
+			if v[0]=='-'{
+				sum=-sum
+			}else{
+				sum+=int(v[0]-'0')*rate
+			}
+			stack=append(stack,sum)
+		}
+	}
+	return stack[0]
+}
