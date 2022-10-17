@@ -8,5 +8,10 @@
 			"path": "../../LeetCodeColorPen/LeetCodeCPP"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"vector": "cpp",
+			"iosfwd": "cpp"
+		}
+	}
 }
