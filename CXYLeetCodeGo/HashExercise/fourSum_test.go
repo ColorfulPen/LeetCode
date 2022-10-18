@@ -1,4 +1,4 @@
-package CXYLeetCodeGo
+package hashexercise
 
 import(
 	"testing"
