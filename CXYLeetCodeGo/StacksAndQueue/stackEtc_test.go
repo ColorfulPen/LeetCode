@@ -82,13 +82,58 @@ func evalRPN(tokens []string) int {
 	return stack[0]
 }
 
-func maxSlidingWindow(nums []int, k int) []int {
+func maxSlidingWindowTwo(nums []int, k int) []int {
 	increQueue := list.New()
-	increQueue.PushBack(nums[0])
-	for i := 0; i < k; i++ {
-		ele:=increQueue.Front()
-		if ele==nil || int(*ele.Value)==nums[i] {
-
+	res := make([]int, 0)
+	for i := 0; i < len(nums); i++ {
+		if i >= k && increQueue.Front().Value.(int) == nums[i-k] {
+			increQueue.Remove(increQueue.Front())
+		}
+		if increQueue.Front() == nil || nums[i] > increQueue.Front().Value.(int) {
+			increQueue.PushBack(nums[i])
 		}
 	}
+}
+
+func maxSlidingWindow(nums []int, k int) []int {
+	if k == 1 {
+		return nums
+	}
+	increQueue := list.New()
+	res := make([]int, 0)
+	for i := 0; i < k; i++ {
+		ele := increQueue.Front()
+		if ele == nil || ele.Value.(int) > nums[i] {
+			increQueue.PushBack(nums[i])
+		} else {
+			for increQueue.Len() > 0 {
+				increQueue.Remove(increQueue.Front())
+			}
+			increQueue.PushBack(nums[i])
+		}
+	}
+	res = append(res, increQueue.Front().Value.(int))
+
+	for i := k; i < len(nums); i++ {
+		ele := increQueue.Front()
+		if ele.Value.(int) == nums[i-k] {
+			increQueue.Remove(increQueue.Front())
+			ele = increQueue.Front()
+		}
+		if ele == nil {
+			increQueue.PushBack(nums[i])
+		} else {
+			for nums[i] > ele.Value.(int) {
+				increQueue.Remove(increQueue.Front())
+				ele = increQueue.Front()
+			}
+			increQueue.PushBack(nums[i])
+		}
+		res = append(res, increQueue.Front().Value.(int))
+	}
+	return res
+}
+
+func TestList(t *testing.T) {
+	t.Log(maxSlidingWindow([]int{1, 3, -1, -3, 5, 3, 6, 7}, 3))
 }
