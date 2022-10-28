@@ -1,8 +1,8 @@
 package stacks
 
 import (
-	"container/list"
 	"testing"
+	
 )
 
 func Test(t *testing.T) {
@@ -137,3 +137,5 @@ func maxSlidingWindow(nums []int, k int) []int {
 func TestList(t *testing.T) {
 	t.Log(maxSlidingWindow([]int{1, 3, -1, -3, 5, 3, 6, 7}, 3))
 }
+
+
