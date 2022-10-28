@@ -1,26 +1,15 @@
 {
-	"folders": [
-		{
-			"path": ".."
-		},
-		{
-			"name": "LeetCodeCPP",
-			"path": "../../LeetCodeColorPen/LeetCodeCPP"
-		}
-	],
-	"settings": {
-		"files.associations": {
-			"vector": "cpp",
-			"iosfwd": "cpp",
-			"__bit_reference": "cpp",
-			"__hash_table": "cpp",
-			"__string": "cpp",
-			"string": "cpp",
-			"string_view": "cpp",
-			"unordered_map": "cpp",
-			"__split_buffer": "cpp",
-			"array": "cpp",
-			"initializer_list": "cpp"
-		}
-	}
+    "folders": [
+        {
+            "path": ".."
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "chrono": "cpp",
+            "ios": "cpp",
+            "__hash_table": "cpp",
+            "unordered_map": "cpp"
+        }
+    }
 }
