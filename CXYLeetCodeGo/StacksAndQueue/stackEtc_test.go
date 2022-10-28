@@ -2,7 +2,7 @@ package stacks
 
 import (
 	"testing"
-	
+	"sort"
 )
 
 func Test(t *testing.T) {
@@ -136,6 +136,24 @@ func maxSlidingWindow(nums []int, k int) []int {
 
 func TestList(t *testing.T) {
 	t.Log(maxSlidingWindow([]int{1, 3, -1, -3, 5, 3, 6, 7}, 3))
+}
+
+// 347
+func topKFrequent(nums []int,k int) []int{
+	ans:=make([]int,0)
+	// map_num:=map[int]int{}
+	map_num:=make(map[int]int)
+	for _,item:=range nums{
+		map_num[item]++
+	}
+	for key,_:=range map_num{
+		ans=append(ans,key)
+	}
+
+	sort.Slice(ans,func(a,b int)bool{
+		return map_num[ans[a]]>map_num[ans[b]]
+	})
+	return ans[:k]
 }
 
 

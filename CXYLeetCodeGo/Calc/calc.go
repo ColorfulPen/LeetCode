@@ -1,7 +1,6 @@
-package example
+package calc
 
 import "fmt"
-import "rsc.io/quote"
 
 // func main() {
 // 	fmt.Println("Hello World!")
@@ -11,6 +10,7 @@ import "rsc.io/quote"
 // 	fmt.Println(quote.Hello())
 // }
 
-func add(num1 int,num2 int) int {
+func Add(num1 int,num2 int) int {
+	fmt.Println("hello")
 	return num1+num2
 }
