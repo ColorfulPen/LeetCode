@@ -1,4 +1,4 @@
-package CXYLeetCodeGo
+package main
 
 import (
 	"testing"

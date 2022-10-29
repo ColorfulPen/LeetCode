@@ -1,8 +1,6 @@
-package example
+package calc
 
 import "testing"
-func TestAdd(t *testing.T){
-	t.Log(add(1,3))
 	
 }
 
