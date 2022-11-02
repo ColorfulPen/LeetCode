@@ -1,6 +1,1 @@
 package binarytree
-
-import (
-	"testing"
-)
-
