@@ -373,20 +373,19 @@ func searchBST(root *TreeNode, val int) *TreeNode {
 
 // 98
 func isValidBST(root *TreeNode) bool {
+	left,right:=math.MinInt64,math.MaxInt64
+	return isValidBSTWithRange(root,left,right)
+}
+
+func isValidBSTWithRange(root *TreeNode,left,right int) bool {
 	if root==nil {
 		return true
 	}
-	if root.Left!=nil {
-		if root.Val<root.Left.Val {
-			return false
-		}
+	// 判断该节点是否符合范围
+	if root.Val>=right ||root.Val<=left {
+		return false
 	}
-	if root.Right!=nil {
-		if root.Val>root.Right.Val {
-			return false
-		}
-	}
-	return isValidBST(root.Left) && isValidBST(root.Right)
+	return isValidBSTWithRange(root.Left,left,root.Val) && isValidBSTWithRange(root.Right,root.Val,right)
 }
 
 
