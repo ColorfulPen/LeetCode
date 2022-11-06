@@ -205,10 +205,10 @@ func isBalanced(root *TreeNode) bool {
 // 257
 func binaryTreePaths(root *TreeNode) []string {
 	res := make([]string, 0)
-	if root==nil {
+	if root == nil {
 		return res
 	}
-	traverse(&res,root,"")
+	traverse(&res, root, "")
 	return res
 }
 
@@ -218,50 +218,50 @@ func traverse(res *[]string, node *TreeNode, path string) {
 		*res = append(*res, path)
 		return
 	}
-	path=path+strconv.Itoa(node.Val)+"->"
-	if node.Left!=nil {
-		traverse(res,node.Left,path)
+	path = path + strconv.Itoa(node.Val) + "->"
+	if node.Left != nil {
+		traverse(res, node.Left, path)
 	}
-	if node.Right!=nil {
-		traverse(res,node.Right,path)
+	if node.Right != nil {
+		traverse(res, node.Right, path)
 	}
 }
 
 // 404
 func sumOfLeftLeaves(root *TreeNode) int {
-	if root.Left==nil && root.Right==nil {
+	if root.Left == nil && root.Right == nil {
 		return 0
 	}
-	return traverseLeft(root.Left,true)+traverseLeft(root.Right,false)
+	return traverseLeft(root.Left, true) + traverseLeft(root.Right, false)
 
 }
 
-func traverseLeft(node *TreeNode,flag bool) int {
-	if node==nil {
+func traverseLeft(node *TreeNode, flag bool) int {
+	if node == nil {
 		return 0
 	}
-	if node.Left==nil && node.Right==nil && flag{
+	if node.Left == nil && node.Right == nil && flag {
 		return node.Val
 	}
-	return traverseLeft(node.Left,true)+traverseLeft(node.Right,false)
+	return traverseLeft(node.Left, true) + traverseLeft(node.Right, false)
 }
 
 // 如果pop出最后一个，且这一个左右节点都是空，说明是最后一个
 // 513
 func findBottomLeftValue(root *TreeNode) int {
-	queue:=list.New()
+	queue := list.New()
 	queue.PushBack(root)
 	var res int
-	for queue.Len()>0 {
-		currNode:=queue.Remove(queue.Front()).(*TreeNode)
-		if currNode.Right!=nil {
+	for queue.Len() > 0 {
+		currNode := queue.Remove(queue.Front()).(*TreeNode)
+		if currNode.Right != nil {
 			queue.PushBack(currNode.Right)
 		}
-		if currNode.Left!=nil {
+		if currNode.Left != nil {
 			queue.PushBack(currNode.Left)
 		}
-		if queue.Len()==0 {
-			res=currNode.Val
+		if queue.Len() == 0 {
+			res = currNode.Val
 		}
 	}
 	return res
@@ -269,13 +269,124 @@ func findBottomLeftValue(root *TreeNode) int {
 
 // 112
 func hasPathSum(root *TreeNode, targetSum int) bool {
-	if root==nil {
+	if root == nil {
 		return false
 	}
-	subTargetSum:=targetSum-root.Val
-	if subTargetSum==0 && root.Left==nil && root.Right==nil{
+	subTargetSum := targetSum - root.Val
+	if subTargetSum == 0 && root.Left == nil && root.Right == nil {
 		return true
 	}
-	return hasPathSum(root.Left,subTargetSum) || hasPathSum(root.Right,subTargetSum)
+	return hasPathSum(root.Left, subTargetSum) || hasPathSum(root.Right, subTargetSum)
+
 }
+
+// 106
+func buildTree(inorder []int, postorder []int) *TreeNode {
+	// 中序 LNR
+	// 后序 LRN
+	if len(inorder) == 0 {
+		return nil
+	}
+	// var node *TreeNode
+	// node.Val=postorder[len(postorder)-1]
+	// inIndex:=findInIndex(inorder,node.Val)
+	// node.Left=buildTree(inorder[:inIndex],postorder[:inIndex])
+	// node.Right=buildTree(inorder[inIndex+1:],postorder[inIndex:len(postorder)-1])
+	// 因为没有TreeNode的构造函数，所以会报错
+	val := postorder[len(postorder)-1]
+	inIndex := findInIndex(inorder, val)
+	left := buildTree(inorder[:inIndex], postorder[:inIndex])
+	right := buildTree(inorder[inIndex+1:], postorder[inIndex:len(postorder)-1])
+	return &TreeNode{
+		Val:   val,
+		Left:  left,
+		Right: right,
+	}
+}
+
+func findInIndex(array []int, val int) int {
+	res := -1
+	for i := 0; i < len(array); i++ {
+		if array[i] == val {
+			res = i
+			break
+		}
+	}
+	return res
+}
+
+func findMaxIndex(array []int) (int, int) {
+	maxNum := array[0]
+	maxNumIndex := 0
+	for i := 1; i < len(array); i++ {
+		if maxNum < array[i] {
+			maxNum = array[i]
+			maxNumIndex = i
+		}
+	}
+	return maxNumIndex, maxNum
+}
+
+// 654
+func constructMaximumBinaryTree(nums []int) *TreeNode {
+	if len(nums) == 0 {
+		return nil
+	}
+	if len(nums) == 1 {
+		return &TreeNode{Val: nums[0]}
+	}
+	maxNumIndex, maxNum := findMaxIndex(nums)
+	return &TreeNode{
+		Val:   maxNum,
+		Left:  constructMaximumBinaryTree(nums[:maxNumIndex]),
+		Right: constructMaximumBinaryTree(nums[maxNumIndex+1:]),
+	}
+}
+
+// 617
+func mergeTrees(root1 *TreeNode, root2 *TreeNode) *TreeNode {
+	if root1==nil{
+		return root2
+	}
+	if root2==nil {
+		return root1
+	}
+	root1.Val+=root2.Val
+	root1.Left=mergeTrees(root1.Left,root2.Left)
+	root1.Right=mergeTrees(root1.Right,root2.Right)
+	return root1
+}
+
+// 700
+func searchBST(root *TreeNode, val int) *TreeNode {
+	if root==nil {
+		return nil
+	}
+	if root.Val==val {
+		return root
+	}else if root.Val>val {
+		return searchBST(root.Left,val)
+	}else{
+		return searchBST(root.Right,val)
+	}
+}
+
+// 98
+func isValidBST(root *TreeNode) bool {
+	if root==nil {
+		return true
+	}
+	if root.Left!=nil {
+		if root.Val<root.Left.Val {
+			return false
+		}
+	}
+	if root.Right!=nil {
+		if root.Val>root.Right.Val {
+			return false
+		}
+	}
+	return isValidBST(root.Left) && isValidBST(root.Right)
+}
+
 
