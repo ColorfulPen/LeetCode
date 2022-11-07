@@ -388,4 +388,77 @@ func isValidBSTWithRange(root *TreeNode,left,right int) bool {
 	return isValidBSTWithRange(root.Left,left,root.Val) && isValidBSTWithRange(root.Right,root.Val,right)
 }
 
+// 530
+func getMinimumDifference(root *TreeNode) int {
+	arr:=make([]int,0)
+	inOrderArr(root,&arr)
+	flag:=false
+	temp:=0
+	min:=10000
+	for _,v:=range arr{
+		if !flag {
+			temp=v
+			flag=true
+		}else{
+			diff:=v-temp
+			temp=v
+			min=getMin(min,diff)
+		}
+	}
+	return min
+}
+
+func inOrderArr(root *TreeNode,arr *[]int){
+	if root==nil {
+		return
+	}
+	if root.Left!=nil {
+		// 传入管道
+		inOrderArr(root.Left,arr)
+	}
+	*arr=append(*arr,root.Val)
+	if root.Right!=nil {
+		// 传入管道
+		inOrderArr(root.Right,arr)
+	}
+}
+
+
+func getMin(a,b int)int{
+	if a<b {
+		return a
+	}
+	return b
+}
+
+// 501
+func findMode(root *TreeNode) []int {
+	res:=make([]int,0)
+	count:=1
+	max:=1
+	var prev *TreeNode = nil
+	var travel func(node *TreeNode)
+	travel = func(node *TreeNode) {
+		if node==nil {
+			return
+		}
+		travel(node.Left)
+		if prev!=nil && prev.Val==node.Val  {
+			count++
+		}else{
+			count=1
+		}
+		if count==max {
+			res = append(res, node.Val)
+		}else if count>max {
+			max=count
+			res=[]int{node.Val}
+		}
+		prev=node
+		travel(node.Right)
+	}
+	travel(root)
+	return res
+}
+
 
