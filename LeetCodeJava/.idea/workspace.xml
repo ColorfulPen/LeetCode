@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5afd8cc0-3c18-4778-8555-c5ffea8033e3" name="Default Changelist" comment="feat(LeetCodeJava): add 1. Two Sum" />
+    <list default="true" id="5afd8cc0-3c18-4778-8555-c5ffea8033e3" name="Default Changelist" comment="feat(LeetCodeJava): add 1. Two Sum">
+      <change beforePath="$PROJECT_DIR$/../.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/../.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../CXYLeetCodeGo/BinaryTree/binaryTree_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/../CXYLeetCodeGo/BinaryTree/binaryTree_test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,10 +42,10 @@
     <property name="jdk.selected.JAVA_MODULE" value="17" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="project.scopes" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -95,6 +100,8 @@
       <workItem from="1665365167915" duration="258000" />
       <workItem from="1665365477144" duration="2304000" />
       <workItem from="1665411875299" duration="9206000" />
+      <workItem from="1667030154721" duration="34000" />
+      <workItem from="1667199141960" duration="183000" />
     </task>
     <task id="LOCAL-00001" summary="feat(LeetCodeJava): add previous work">
       <created>1665317062212</created>
