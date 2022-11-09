@@ -461,4 +461,82 @@ func findMode(root *TreeNode) []int {
 	return res
 }
 
+// 236
+func lowestCommonAncestor(node, p, q *TreeNode) *TreeNode {
+	if node==nil {
+		return nil
+	}
+	left:=lowestCommonAncestor(node.Left,p,q)
+	right:=lowestCommonAncestor(node.Right,p,q)
+	if node.Val==p.Val || node.Val==q.Val {
+		return node
+	}
+	if left!=nil && right!=nil {
+		return node
+	}else if left==nil && right!=nil {
+		return right
+	}else if right==nil && left!=nil {
+		return left
+	}
+	return nil
+}
+
+// 235
+func lowestCommonAncestor1(node, p, q *TreeNode) *TreeNode {
+	if node==nil {
+		return nil
+	}
+	if node.Val<p.Val && node.Val<q.Val {
+		return lowestCommonAncestor1(node.Right,p,q)
+	}else if node.Val>q.Val && node.Val>p.Val {
+		return lowestCommonAncestor1(node.Left,p,q)
+	}else{
+		return node
+	}
+}
+
+// 701
+func insertIntoBST(root *TreeNode, val int) *TreeNode {
+	if root==nil {
+		return &TreeNode{Val: val}
+	}
+	insert(root,val)
+	return root
+}
+
+func insert(node *TreeNode,val int){
+	if node==nil {
+		return
+	}
+	if node.Val<val {
+		if node.Right==nil {
+			node.Right=&TreeNode{Val: val}
+			return
+		}
+		insert(node.Right,val)
+	}else{
+		if node.Left==nil {
+			node.Left=&TreeNode{Val: val}
+			return
+		}
+		insert(node.Left,val)
+	}
+}
+
+// 701
+func insertBST(root *TreeNode,val int) *TreeNode{
+	if root==nil {
+		root=&TreeNode{Val: val}
+		return root
+	}
+	if val>root.Val {
+		root.Right=insertBST(root.Right,val)
+	}else{
+		root.Left=insertBST(root.Left,val)
+	}
+	return root
+}
+
+
+
 
