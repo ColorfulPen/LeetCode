@@ -461,4 +461,172 @@ func findMode(root *TreeNode) []int {
 	return res
 }
 
+// 236
+func lowestCommonAncestor(node, p, q *TreeNode) *TreeNode {
+	if node==nil {
+		return nil
+	}
+	left:=lowestCommonAncestor(node.Left,p,q)
+	right:=lowestCommonAncestor(node.Right,p,q)
+	if node.Val==p.Val || node.Val==q.Val {
+		return node
+	}
+	if left!=nil && right!=nil {
+		return node
+	}else if left==nil && right!=nil {
+		return right
+	}else if right==nil && left!=nil {
+		return left
+	}
+	return nil
+}
+
+// 235
+func lowestCommonAncestor1(node, p, q *TreeNode) *TreeNode {
+	if node==nil {
+		return nil
+	}
+	if node.Val<p.Val && node.Val<q.Val {
+		return lowestCommonAncestor1(node.Right,p,q)
+	}else if node.Val>q.Val && node.Val>p.Val {
+		return lowestCommonAncestor1(node.Left,p,q)
+	}else{
+		return node
+	}
+}
+
+// 701
+func insertIntoBST(root *TreeNode, val int) *TreeNode {
+	if root==nil {
+		return &TreeNode{Val: val}
+	}
+	insert(root,val)
+	return root
+}
+
+func insert(node *TreeNode,val int){
+	if node==nil {
+		return
+	}
+	if node.Val<val {
+		if node.Right==nil {
+			node.Right=&TreeNode{Val: val}
+			return
+		}
+		insert(node.Right,val)
+	}else{
+		if node.Left==nil {
+			node.Left=&TreeNode{Val: val}
+			return
+		}
+		insert(node.Left,val)
+	}
+}
+
+// 701
+func insertBST(root *TreeNode,val int) *TreeNode{
+	if root==nil {
+		root=&TreeNode{Val: val}
+		return root
+	}
+	if val>root.Val {
+		root.Right=insertBST(root.Right,val)
+	}else{
+		root.Left=insertBST(root.Left,val)
+	}
+	return root
+}
+
+// 450
+func deleteNode(root *TreeNode, key int) *TreeNode {
+	if root==nil {
+		return nil
+	}
+	if root.Val>key {
+		root.Left=deleteNode(root.Left,key)
+		return root
+	}else if root.Val<key{
+		root.Right=deleteNode(root.Right,key)
+		return root
+	}else{
+		// case1
+		if root.Left==nil{
+			root=root.Right
+			return root
+		}
+		// case2
+		if root.Right==nil {
+			return root.Left
+		}
+		// case3
+		rightNode:=root.Right
+		for rightNode.Left!=nil {
+			rightNode=rightNode.Left
+		}
+		rightNode.Left=root.Left
+		root=root.Right
+		return root
+	}
+}
+
+// 669
+func trimBST(root *TreeNode, low int, high int) *TreeNode {
+	if root==nil {
+		return nil
+	}
+    root.Left=trimBST(root.Left,low,high)		
+    root.Right=trimBST(root.Right,low,high)
+    if root.Val<low || root.Val>high {
+		if root.Left==nil {
+			root=root.Right
+			return root
+		}
+		if root.Right==nil {
+			root=root.Left
+			return root
+		}
+		rlNode:=root.Right
+		for rlNode!=nil {
+			rlNode=rlNode.Left
+		}
+		rlNode.Left=root.Left
+		root=root.Right
+	}
+	return root
+}
+
+// 108
+func sortedArrayToBST(nums []int) *TreeNode {
+	length:=len(nums)
+	if length==0 {
+		return nil
+	}
+	if length==1 {
+		return &TreeNode{Val: nums[0]}
+	}
+
+	mid:=length/2
+	node:=&TreeNode{Val: nums[mid],Left: sortedArrayToBST(nums[:mid]),Right: sortedArrayToBST(nums[mid+1:])}
+	return node
+}
+
+// 538
+func convertBST(root *TreeNode) *TreeNode {
+	sum:=0
+	sumBST(root,&sum)
+	return root		
+}
+
+func sumBST(root *TreeNode,sum *int) {
+	if root==nil {
+		return
+	}
+	sumBST(root.Right,sum)
+	root.Val+=*sum
+	*sum=root.Val
+	sumBST(root.Left,sum)
+}
+
+
+
 
