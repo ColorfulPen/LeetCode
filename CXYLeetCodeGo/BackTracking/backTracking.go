@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-11 09:39:43
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-15 10:23:48
+ * @LastEditTime: 2022-11-16 11:36:23
  * @FilePath: /LeetCode/CXYLeetCodeGo/BackTracking/backTracking.go
  * @Description:
  *
@@ -176,4 +176,98 @@ func backFive(candidates,path []int,target int,result *[][]int,startIndex int){
 		path=path[:len(path)-1]
 		target+=candidates[i]
 	}
+}
+
+// 131
+func partition(s string) [][]string {
+	result:=make([][]string,0)
+	backSix(s,[]string{},&result,0,0)
+	return result
+}
+
+func backSix(s string,path []string,result *[][]string,startIndex,endIndex int){
+	if endIndex==len(s) && len(path)!=0{
+		temp:=make([]string,len(path))
+		copy(temp,path)
+		*result=append(*result, temp)
+		return
+	}
+
+	for i := endIndex; i <= len(s); i++ {
+		currSubString:=s[startIndex:i]
+		if !isPalid(currSubString) {
+			continue
+		}
+		path=append(path, currSubString)
+		backSix(s,path,result,i,i)
+		path=path[:len(path)-1]
+	}
+}
+
+func isPalid(subString string) bool{
+	if subString=="" {
+		return false
+	}
+	length:=len(subString)
+	byteArray:=[]byte(subString)
+	for i := 0; i < length/2; i++ {
+		if byteArray[i]!=byteArray[length-i-1] {
+			return false
+		}
+	}
+	return true
+}
+
+// 93
+func restoreIpAddresses(s string) []string {
+	result:=make([]string,0)
+	backSeven(s,[]string{},&result,0,0,0)
+	return result
+}
+
+func backSeven(s string,path []string,result *[]string,startIndex,endIndex,count int){
+	if endIndex==len(s) {
+		if len(path)!=4 {
+			return
+		}
+		ip:=""
+		for i := 0; i < 4; i++ {
+			ip+=path[i]
+			if i!=3 {
+				ip+="."
+			}
+		}
+		*result=append(*result, ip)
+        return
+	}
+
+	for i := endIndex; i <= len(s); i++ {
+		currSubString:=s[startIndex:i]
+		if !isLegal(currSubString) {
+			continue
+		}
+		count++
+        if count>4{
+            return
+        }
+		path=append(path, currSubString)
+		backSeven(s,path,result,i,i,count)
+        count--
+		path=path[:len(path)-1]
+	}
+}
+
+func isLegal(subString string)bool{
+	if subString=="" {
+		return false
+	}
+	bytes:=[]byte(subString)
+	if bytes[0]=='0' && len(subString)>1{
+		return false
+	}
+	sum:=0
+	for i := 0; i < len(subString); i++ {
+		sum=sum*10+int(bytes[i]-'0')
+	}
+	return sum<255
 }
