@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-11 10:18:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-16 11:24:31
+ * @LastEditTime: 2022-11-17 10:10:48
  * @FilePath: /LeetCode/CXYLeetCodeGo/BackTracking/backTracking_test.go
  * @Description: 
  * 
@@ -34,3 +34,8 @@ func TestLegal(t *testing.T){
 func TestIpAdd(t *testing.T){
 	fmt.Println(restoreIpAddresses("0000"))
 }
+
+func TestSubSe(t *testing.T){
+	findSubsequences([]int{4,6,7,7})
+}
+
