@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-11 09:39:43
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-17 10:12:34
+ * @LastEditTime: 2022-11-18 09:42:43
  * @FilePath: /LeetCode/CXYLeetCodeGo/BackTracking/backTracking.go
  * @Description:
  *
@@ -11,6 +11,7 @@
 package backtracking
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 )
@@ -360,4 +361,130 @@ func backNight(nums, path []int, result *[][]int, startIndex int) {
 		backNight(nums, path, result, i+1)
 		path = path[:len(path)-1]
 	}
+}
+
+// 46
+func permute(nums []int) [][]int {
+	result := make([][]int, 0)
+	used := make([]bool, len(nums))
+	backTen(nums, []int{}, &result, used)
+	return result
+}
+
+func backTen(nums, path []int, result *[][]int, used []bool) {
+	if len(path) == len(nums) {
+		temp := make([]int, len(path))
+		copy(temp, path)
+		*result = append(*result, temp)
+		return
+	}
+
+	for i := 0; i < len(nums); i++ {
+		if used[i] {
+			continue
+		}
+		used[i] = true
+		path = append(path, nums[i])
+		backTen(nums, path, result, used)
+		used[i] = false
+		path = path[:len(path)-1]
+	}
+}
+
+// 47
+func permuteUnique(nums []int) [][]int {
+	sort.Ints(nums)
+
+	result := make([][]int, 0)
+	used := make([]bool, len(nums))
+	backTen2(nums, []int{}, &result, used)
+	return result
+}
+
+func backTen2(nums, path []int, result *[][]int, used []bool) {
+	if len(path) == len(nums) {
+		temp := make([]int, len(path))
+		copy(temp, path)
+		*result = append(*result, temp)
+		return
+	}
+
+	// 在循环外控制的是层级间的重复
+	paraUsed := make(map[int]struct{}, len(nums))
+	for i := 0; i < len(nums); i++ {
+		// 带入递归算法内的控制的是纵向间的重复
+		if used[i] {
+			continue
+		}
+		if _, ok := paraUsed[nums[i]]; ok {
+			continue
+		}
+		paraUsed[nums[i]] = struct{}{}
+		used[i] = true
+		path = append(path, nums[i])
+		backTen2(nums, path, result, used)
+		used[i] = false
+		path = path[:len(path)-1]
+	}
+}
+
+// 332
+func findItinerary(tickets [][]string) []string {
+	result := make([]string, 0)
+	used := make([]bool, len(tickets))
+	path := make([][]string, 0)
+	backEleven(tickets, path, &result, used)
+	return result
+}
+
+func backEleven(tickets [][]string, path [][]string, result *[]string, used []bool) {
+	if len(path) == len(tickets) {
+		temp:=make([]string,0)
+		for i := 0; i < len(tickets); i++ {
+			temp = append(temp, tickets[i][0])
+		}
+		temp = append(temp, tickets[len(tickets)][1])
+		*result = temp
+		fmt.Println(path)
+	}
+
+	prev := "ZZZ"
+	for i := 0; i < len(tickets); i++ {
+
+		if len(path) == 0 && tickets[i][0] != "JFK" {
+			continue
+		}
+		if used[i] {
+			continue
+		}
+		if len(path)!=0 && tickets[i][0]!=path[len(path)-1][1] {
+			continue
+		}
+		if compareString(prev, tickets[i][1]) {
+			continue
+		}
+		used[i] = true
+		path = append(path, tickets[i])
+		prev = tickets[i][1]
+		if len(path) == len(tickets) {
+			return
+		}
+		backEleven(tickets, path, result, used)
+		used[i] = false
+		path = path[:len(path)-1]
+	}
+}
+
+// 第一个比第二个字典序小时，返回true
+func compareString(dst1, dst2 string) bool {
+	dst1Byte := []byte(dst1)
+	dst2Byte := []byte(dst2)
+	for i := 0; i < 3; i++ {
+		if dst1Byte[i] < dst2Byte[i] {
+			return true
+		} else if dst1Byte[i] > dst2Byte[i] {
+			return false
+		}
+	}
+	return true
 }

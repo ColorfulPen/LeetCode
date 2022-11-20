@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-11 10:18:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-17 10:10:48
+ * @LastEditTime: 2022-11-18 09:38:56
  * @FilePath: /LeetCode/CXYLeetCodeGo/BackTracking/backTracking_test.go
  * @Description: 
  * 
@@ -39,3 +39,16 @@ func TestSubSe(t *testing.T){
 	findSubsequences([]int{4,6,7,7})
 }
 
+func Test47(t *testing.T){
+	ans:=permuteUnique([]int{1,1,2})
+	fmt.Println(ans)
+}
+
+func Test46(t *testing.T){
+	permute([]int{1,2,3})
+}
+
+func Test332(t *testing.T){
+	// findItinerary([][]string{{"MUC","LHR"},{"JFK","MUC"},{"SFO","SJC"},{"LHR","SFO"}})
+	findItinerary([][]string{{"JFK","SFO"},{"JFK","ATL"},{"SFO","ATL"},{"ATL","JFK"},{"ATL","SFO"}})
+}
