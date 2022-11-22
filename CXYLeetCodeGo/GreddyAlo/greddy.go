@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-20 10:09:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-22 11:28:27
+ * @LastEditTime: 2022-11-22 13:49:51
  * @FilePath: /LeetCode/CXYLeetCodeGo/GreddyAlo/greddy.go
  * @Description:
  *
@@ -268,7 +268,6 @@ func largestSumAfterKNegations(nums []int, k int) int {
 	return sumInts(nums)
 }
 
-
 func sumInts(nums []int) int {
 	res := 0
 	for _, v := range nums {
@@ -279,25 +278,25 @@ func sumInts(nums []int) int {
 
 // 134
 func canCompleteCircuit(gas []int, cost []int) int {
-	sum:=0
-	startIndex:=0
-	currIndex:=0
-	for currIndex!=startIndex-1 {
-		for sum<0 {
-			if startIndex!=0 {
-				startIndex--
-			}else{
+	sum := gas[0]-cost[0]
+	startIndex := 0
+	currIndex := 1
+	for currIndex%len(gas) != startIndex {
+		if sum >= 0 {
+			sum+=gas[currIndex]-cost[currIndex]
+			currIndex++
+		} else {
+			if startIndex==0 {
 				startIndex=len(gas)-1
+			}else{
+				startIndex--
 			}
 			sum+=gas[startIndex]-cost[startIndex]
-			
-			
 		}
-		sum+=gas[currIndex]-cost[currIndex]
-		currIndex++
-		if currIndex==len(gas)-1 {
-			break
-		}
+	}
+
+	if sum<0 {
+		return -1
 	}
 	return startIndex
 }
