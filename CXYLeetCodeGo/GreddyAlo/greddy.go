@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-20 10:09:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-24 08:25:59
+ * @LastEditTime: 2022-11-24 10:56:43
  * @FilePath: /LeetCode/CXYLeetCodeGo/GreddyAlo/greddy.go
  * @Description:
  *
@@ -357,31 +357,103 @@ func lemonadeChange(bills []int) bool {
 }
 
 // 406
-// 从高到低按身高排序   
+// 从高到低按身高排序  
+// people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]
+// [7,0] [7,1] [6,1] [5,2] [5,0] [4,4] 
+// [[7,0],[7,1],[6,1],[5,0],[5,2],[4,4]]
+
 func reconstructQueue(people [][]int) [][]int {
-	replaceIndex:=len(people)-1
-	for i := 0; i < len(people); i++ {
-		// 计算位置放入
-		count:=0
-		height,k:=people[i][0],people[i][1]
-
-		for j := 0; j < i; j++ {
-			if people[j][0]>=height {
-				count++
-			}
-			if count==k {
-				// remove
-				
-			}
+	people=orderByHeight(people)
+	for i := 0; i < len(people)-1; i++ {
+		currPeople:=people[i]
+		insertIndex:=people[i][1]
+		// 全体后移，移到i处
+		for j := i; j >insertIndex ; j-- {
+			people[j]=people[j-1]
 		}
-
-		if count!=k {
-			// replace
-			i--
-		}
+		people[insertIndex]=currPeople
 	}
-
-
+	return people
 }
 
+// 5 2 1 4 3
+// 冒泡排序
+func orderByHeight(people [][]int) [][]int{
+	for i := 0; i < len(people)-1; i++ {
+		for j := 0; j < len(people)-1-i; j++ {
+			if people[j][0]<people[j+1][0]{
+				people[j],people[j+1]=people[j+1],people[j]
+			}else if people[j][0]==people[j+1][0] &&  people[j][1]>people[j+1][1]{
+				people[j],people[j+1]=people[j+1],people[j]
+			}
+		}
+	}
+	return people
+}
 
+func reconstructQueueBetter(people [][]int) [][]int {
+	sort.Slice(people,func(i, j int) bool {
+		if people[i][0]==people[j][0] {
+			return people[i][1]<people[j][1]
+		}
+		return people[i][0]>people[j][0]
+	})
+	result:=make([][]int,0)
+
+	for _,info:=range people{
+		result=append(result, info)
+		copy(result[info[1]+1:],result[info[1]:])
+		result[info[1]]=info
+	}
+	return result
+}
+
+// 452
+func findMinArrowShots(points [][]int) int {
+	// 需要排序
+	sort.Slice(points,func(i, j int) bool {
+		return points[i][0]<points[j][0]
+	})
+	count:=1
+	maxLeft,minRight:=points[0][0],points[0][1]
+	for i := 1; i < len(points); i++ {
+		left,right:=points[i][0],points[i][1]
+		if minRight<left {
+			count++
+			maxLeft,minRight=left,right
+		}else{
+			if left>maxLeft {
+				maxLeft=left
+			}
+			if right<minRight {
+				minRight=right
+			}
+		}
+	}
+	return count
+}
+
+// 435
+func eraseOverlapIntervals(intervals [][]int) int {
+	sort.Slice(intervals,func(i, j int) bool {
+		if intervals[i][0]==intervals[j][0] {
+			return intervals[i][1]<intervals[j][1]
+		}
+		return intervals[i][0]<intervals[j][0]
+	})
+	fmt.Println(intervals)
+	count:=0
+	preRight,preLeft:=intervals[0][1],intervals[0][0]
+	for i := 1; i < len(intervals); i++ {
+		if intervals[i][0]<preRight && intervals[i][0]>preLeft{
+			count++
+
+		}else if intervals[i][0]==preLeft && intervals[i][1]==preRight{
+			count++
+		}else{
+			preRight=intervals[i][1]
+			preLeft=intervals[i][0]
+		}
+	}
+	return count
+}
