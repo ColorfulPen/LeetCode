@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-20 10:09:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-22 13:49:51
+ * @LastEditTime: 2022-11-24 08:25:59
  * @FilePath: /LeetCode/CXYLeetCodeGo/GreddyAlo/greddy.go
  * @Description:
  *
@@ -16,11 +16,13 @@
 package greddyalo
 
 import (
+	"fmt"
 	"sort"
 )
 
 // 455
 func findContentChildren(g []int, s []int) int {
+	fmt.Println("findContentChildren")
 	sort.Ints(g)
 	sort.Ints(s)
 	sIndex, gindex, count := 0, 0, 0
@@ -300,3 +302,86 @@ func canCompleteCircuit(gas []int, cost []int) int {
 	}
 	return startIndex
 }
+
+// 135
+// 从左到右和从右向左遍历
+// 左到右为右比左大的情况    右到左为左比右大的情况
+func candy(ratings []int) int {
+	candys:=make([]int,len(ratings))
+	for i := 0; i < len(ratings)-1; i++ {
+		if ratings[i]<ratings[i+1] {
+			candys[i+1]=candys[i]+1
+		}
+	}
+	for i := len(ratings)-1; i >= 1; i-- {
+		if ratings[i-1]>ratings[i] {
+			if candys[i-1]<=candys[i] {
+				candys[i-1]=candys[i]+1
+			}
+		}
+	}
+	res:=0
+	for _,v:=range candys{
+		res+=v
+	}
+	return res+len(ratings)
+}
+
+// 860
+// 能找10就不找5
+func lemonadeChange(bills []int) bool {
+	pocket:=make([]int,2)
+	for i := 0; i < len(bills); i++ {
+		money:=bills[i]
+		switch money {
+		case 5:
+			pocket[0]++
+		case 10:
+			pocket[0]--
+			if pocket[0]==-1 {
+				return false
+			}
+			pocket[1]++
+		case 20:
+			if pocket[1]>=1 && pocket[0]>=1 {
+				pocket[1]--
+				pocket[0]--
+			}else if pocket[0]>=3 {
+				pocket[0]=pocket[0]-3
+			}else{
+				return false
+			}
+		}
+	}
+	return true
+}
+
+// 406
+// 从高到低按身高排序   
+func reconstructQueue(people [][]int) [][]int {
+	replaceIndex:=len(people)-1
+	for i := 0; i < len(people); i++ {
+		// 计算位置放入
+		count:=0
+		height,k:=people[i][0],people[i][1]
+
+		for j := 0; j < i; j++ {
+			if people[j][0]>=height {
+				count++
+			}
+			if count==k {
+				// remove
+				
+			}
+		}
+
+		if count!=k {
+			// replace
+			i--
+		}
+	}
+
+
+}
+
+
