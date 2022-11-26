@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-20 10:09:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-24 10:56:43
+ * @LastEditTime: 2022-11-26 19:57:46
  * @FilePath: /LeetCode/CXYLeetCodeGo/GreddyAlo/greddy.go
  * @Description:
  *
@@ -456,4 +456,46 @@ func eraseOverlapIntervals(intervals [][]int) int {
 		}
 	}
 	return count
+}
+
+// 763
+func partitionLabels(s string) []int {
+	res:=make([]int,0)
+	farestIndex:=-1
+	startIndex:=-1
+	sMap:=make(map[byte]int, 0)
+	for i := 0; i < len(s); i++ {
+		sMap[s[i]]=i
+	}
+	for i := 0; i < len(s); i++ {
+		if sMap[s[i]]>farestIndex {
+			farestIndex=sMap[s[i]]
+		}
+		if i==farestIndex {
+			res = append(res, i-startIndex)
+			startIndex=i
+		}
+	}
+	return res
+}
+
+// 56
+func merge(intervals [][]int) [][]int {
+	sort.Slice(intervals,func(i, j int) bool {
+		return intervals[i][0]<intervals[j][0] 
+	})
+	res:=make([][]int,0)
+	left,maxRight:=intervals[0][0],intervals[0][1]
+	for i := 1; i < len(intervals); i++ {
+		if intervals[i][0]<=maxRight {
+			if intervals[i][1]>maxRight {
+				maxRight=intervals[i][1]
+			}
+		}else{
+			res = append(res, []int{left,maxRight})
+			left,maxRight=intervals[i][0],intervals[i][1]
+		}
+	}
+	res = append(res, []int{left,maxRight})
+	return res
 }
