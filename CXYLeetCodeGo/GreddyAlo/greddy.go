@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-20 10:09:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-28 10:12:10
+ * @LastEditTime: 2022-11-28 10:19:53
  * @FilePath: /LeetCode/CXYLeetCodeGo/GreddyAlo/greddy.go
  * @Description:
  *
@@ -559,4 +559,9 @@ func maxProfit(prices []int, fee int) int {
 		}
 	}
 	return res
+}
+
+// 968
+func minCameraCover(root *TreeNode) int {
+
 }
