@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-20 10:09:05
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-26 19:57:46
+ * @LastEditTime: 2022-11-28 10:12:10
  * @FilePath: /LeetCode/CXYLeetCodeGo/GreddyAlo/greddy.go
  * @Description:
  *
@@ -18,6 +18,7 @@ package greddyalo
 import (
 	"fmt"
 	"sort"
+	"strconv"
 )
 
 // 455
@@ -497,5 +498,65 @@ func merge(intervals [][]int) [][]int {
 		}
 	}
 	res = append(res, []int{left,maxRight})
+	return res
+}
+
+// 738
+func monotoneIncreasingDigits(n int) int {
+	// 逆序数组
+	divideNum:=make([]int,0)
+	for n>0 {
+		divideNum = append(divideNum, n%10)
+		n/=10
+	}
+	fmt.Println(divideNum)
+	for i := 0; i < len(divideNum)-1; i++ {
+		if divideNum[i]<divideNum[i+1] {
+			divideNum[i+1]-=1
+
+			// 这里注意的是 只要前一位小于1，那么后面全部置9
+			for j := 0; j <= i; j++ {
+				divideNum[j]=9
+			}
+		}
+	}
+	res:=0
+	rate:=1
+	for i := 0; i < len(divideNum); i++ {
+		res+=divideNum[i]*rate
+		rate*=10
+	}
+	return res
+}
+
+func mods(N int)int{
+	s:=strconv.Itoa(N)
+	ss:=[]byte(s)
+	n:=len(ss)
+	if n<1 {
+		return n
+	}
+	res,_:=strconv.Atoi(string(ss))
+	return res
+}
+
+// 714
+func maxProfit(prices []int, fee int) int {
+	res:=0
+	minPrice:=prices[0]
+	for i := 1; i < len(prices); i++ {
+		if prices[i]<minPrice {
+			minPrice=prices[i]
+		}
+
+		if prices[i]>=minPrice && prices[i]<minPrice+fee {
+			continue
+		}
+
+		if prices[i]>minPrice+fee {
+			res+=prices[i]-minPrice-fee
+			minPrice=prices[i]-fee
+		}
+	}
 	return res
 }
