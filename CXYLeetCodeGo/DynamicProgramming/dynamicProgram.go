@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-28 10:26:42
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-28 17:56:14
+ * @LastEditTime: 2022-11-30 10:31:37
  * @FilePath: /LeetCode/CXYLeetCodeGo/DynamicProgramming/dynamicProgram.go
  * @Description:
  *
@@ -47,38 +47,67 @@ func max(a, b int) int {
 // 309
 // 动态规划关键就是确定状态
 func maxProfit4(prices []int) int {
-	n:=len(prices)
-	if len(prices)<2 {
+	n := len(prices)
+	if len(prices) < 2 {
 		return 0
 	}
-	dp:=make([][]int,len(prices))
-	status:=make([]int,len(prices)*4)
+	dp := make([][]int, len(prices))
+	status := make([]int, len(prices)*4)
 
-	for i:=range dp{
-		dp[i]=status[:4]
-		status=status[4:]
+	for i := range dp {
+		dp[i] = status[:4]
+		status = status[4:]
 	}
-	dp[0][0]=-prices[0]
+	dp[0][0] = -prices[0]
 
 	for i := 1; i < len(prices); i++ {
-		dp[i][0] = max(dp[i - 1][0], max(dp[i - 1][1] - prices[i], dp[i - 1][3] - prices[i]))
-        dp[i][1] = max(dp[i - 1][1], dp[i - 1][3])
-        dp[i][2] = dp[i - 1][0] + prices[i]
-        dp[i][3] = dp[i - 1][2]
+		dp[i][0] = max(dp[i-1][0], max(dp[i-1][1]-prices[i], dp[i-1][3]-prices[i]))
+		dp[i][1] = max(dp[i-1][1], dp[i-1][3])
+		dp[i][2] = dp[i-1][0] + prices[i]
+		dp[i][3] = dp[i-1][2]
 	}
 
-	return max(dp[n - 1][1], max(dp[n - 1][2], dp[n - 1][3]))
+	return max(dp[n-1][1], max(dp[n-1][2], dp[n-1][3]))
 }
 
-
-func maxProfit5(prices []int,fee int)int{
-	n:=len(prices)
-	dp:=make([][2]int,n)
-	dp[0][0]=-prices[0]
+func maxProfit5(prices []int, fee int) int {
+	n := len(prices)
+	dp := make([][2]int, n)
+	dp[0][0] = -prices[0]
 
 	for i := 1; i < n; i++ {
-		dp[i][1]=max(dp[i-1][1],dp[i-1][0]+prices[i]-fee)
-		dp[i][0]=max(dp[i-1][0],dp[i-1][1]-prices[i])
+		dp[i][1] = max(dp[i-1][1], dp[i-1][0]+prices[i]-fee)
+		dp[i][0] = max(dp[i-1][0], dp[i-1][1]-prices[i])
 	}
 	return dp[n-1][1]
+}
+
+// 300
+func lengthOfLIS(nums []int) int {
+	dp := make([]int, len(nums))
+	maxNum:=0
+	
+	for i := 1; i < len(nums); i++ {
+		for j := 0; j < i; j++ {
+			if nums[i]>nums[j] {
+				dp[i]=max(dp[i],dp[j]+1)
+			}
+		}
+		maxNum=max(maxNum,dp[i])
+	}
+	return maxNum+1
+}
+
+// 674
+func findLengthOfLCIS(nums []int) int {
+	dp:=make([]int,len(nums))
+	maxNum:=dp[0]
+
+	for i := 1; i < len(nums); i++ {
+		if nums[i]>nums[i-1] {
+			dp[i]=dp[i-1]+1
+		}
+		maxNum=max(maxNum,dp[i])
+	}
+	return maxNum+1
 }
