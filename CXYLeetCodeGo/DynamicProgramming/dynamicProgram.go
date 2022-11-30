@@ -2,7 +2,7 @@
  * @Author: TomaChen513
  * @Date: 2022-11-28 10:26:42
  * @LastEditors: TomaChen513
- * @LastEditTime: 2022-11-30 10:31:37
+ * @LastEditTime: 2022-11-30 15:19:41
  * @FilePath: /LeetCode/CXYLeetCodeGo/DynamicProgramming/dynamicProgram.go
  * @Description:
  *
@@ -110,4 +110,117 @@ func findLengthOfLCIS(nums []int) int {
 		maxNum=max(maxNum,dp[i])
 	}
 	return maxNum+1
+}
+
+// 718
+func findLength(nums1 []int, nums2 []int) int {
+	dp:=make([][]int,len(nums1))
+	subDp:=make([]int,len(nums1)*len(nums2))
+	for i := 0; i < len(nums1); i++ {
+		dp[i] = subDp[:len(nums2)]
+		subDp=subDp[len(nums2):]
+	}
+	maxNum:=0
+
+	for i := 0; i < len(nums1); i++ {
+		for j := 0; j < len(nums2); j++ {
+			if nums1[i]==nums2[j] {
+				dp[i][j]=1
+				maxNum=1
+			}
+		}
+	}
+
+
+	for i := 1; i < len(nums1); i++ {
+		for j := 1; j < len(nums2); j++ {
+			if nums1[i]==nums2[j] {
+				dp[i][j]=dp[i-1][j-1]+1
+				maxNum=max(maxNum,dp[i][j])
+			}
+		}
+	}
+
+	return maxNum
+}
+
+// 1143
+// func longestCommonSubsequence(text1 string, text2 string) int {
+// 	text1Bytes:=[]byte(text1)
+// 	text2Bytes:=[]byte(text2)
+// 	dp:=make([][]int,len(text1Bytes))
+// 	subDp:=make([]int,len(text1Bytes)*len(text2Bytes))
+// 	for i := 0; i < len(text1Bytes); i++ {
+// 		dp[i] = subDp[:len(text2Bytes)]
+// 		subDp=subDp[len(text1Bytes):]
+// 	}
+// 	// maxNum:=0
+
+// 	for i := 0; i < len(text1Bytes); i++ {
+// 		for j := 0; j < len(text2Bytes); j++ {
+// 			if text1Bytes[i]==text2Bytes[j] {
+// 				dp[i][j]=1
+// 				// maxNum=1
+// 			}
+// 		}
+// 	}
+
+
+// 	for i := 1; i < len(text1Bytes); i++ {
+// 		for j := 1; j < len(text2Bytes); j++ {
+// 			if text1Bytes[i]==text2Bytes[j] {
+// 				dp[i][j]=dp[i-1][j-1]+1
+// 				// maxNum=max(maxNum,dp[i][j])
+// 			}else{
+// 				dp[i][j]=max(dp[i-1][j],dp[i][j-1])
+// 			}
+// 		}
+// 	}
+
+// 	return maxNum
+
+// }
+
+// 1035
+// dp[i][j]表示上面到i，下面到j的最大连线数
+func maxUncrossedLines(nums1 []int, nums2 []int) int {
+	dp:=make([][]int,len(nums1))
+	for i := 0; i < len(nums1); i++ {
+		dp[i]=make([]int, len(nums2))
+	}
+	
+	// 初始化
+	if nums1[0]==nums2[0] {
+		dp[0][0]=1
+	}
+	for i := 0; i < len(nums1); i++ {
+		if nums1[i]==nums2[0] {
+			for j := i; j < len(nums1); j++ {
+				dp[j][0]=1
+			}
+			break
+		}
+	}
+	for i := 0; i < len(nums2); i++ {
+		if nums1[0]==nums2[i] {
+			for j := i; j < len(nums2); j++ {
+				dp[0][j]=1
+			}
+			break
+		}
+	}
+
+
+
+	for i := 1; i < len(nums1); i++ {
+		for j := 1; j < len(nums2); j++ {
+			if  nums1[i]==nums2[j]{
+				dp[i][j]=max(max(dp[i-1][j-1]+1,dp[i][j-1]),dp[i-1][j])
+			}else{
+				dp[i][j]=max(max(dp[i-1][j-1],dp[i][j-1]),dp[i-1][j])
+			}
+		}
+	}
+
+	return dp[len(nums1)-1][len(nums2)-1]
 }
