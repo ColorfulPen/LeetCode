@@ -224,3 +224,61 @@ func maxUncrossedLines(nums1 []int, nums2 []int) int {
 
 	return dp[len(nums1)-1][len(nums2)-1]
 }
+
+// 53
+func maxSubArray(nums []int) int {
+	dp:=make([]int,len(nums))
+	dp[0]=nums[0]
+	res:=dp[0]
+
+	for i := 1; i < len(nums); i++ {
+		if dp[i-1]>0 {
+			dp[i]=dp[i-1]+nums[i]
+		}else{
+			dp[i]=nums[i]
+		}
+		if res<dp[i] {
+			res=dp[i]
+		}
+	}
+	return res
+}
+
+// 392
+// dp[i][j]表示是否在长度为j的序列t中存在长度为i的序列s
+func isSubsequence(s string, t string) bool {
+	if len(s)==0 {
+		return true
+	}
+	if len(t)==0{
+		return false
+	}
+	ss:=[]byte(s)
+	ts:=[]byte(t)
+	dp:=make([][]int,len(ss))
+	for i := 0; i < len(ss); i++ {
+		dp[i]=make([]int, len(ts))
+	}
+
+	for i := 0; i < len(ts); i++ {
+		if ts[i]==ss[0] {
+			for j := 0; j < len(ts); j++ {
+				dp[0][j]=1
+			}
+			break
+		}
+	}
+
+
+	for i := 1; i < len(ss); i++ {
+		for j := 1; j < len(ts); j++ {
+			if ss[i]==ts[j]{
+				dp[i][j]=dp[i-1][j-1]+1
+			}else{
+				dp[i][j]=dp[i][j-1]
+			}
+		}
+	}
+
+	return dp[len(ss)-1][len(ts)-1]==len(ss)
+}
