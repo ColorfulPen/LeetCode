@@ -320,3 +320,34 @@ func min(a,b int)int{
 	}
 	return b
 }
+
+// 647
+func countSubstrings(s string) int {
+	result:=0
+	dp:=make([][]bool,len(s))
+	for i := 0; i < len(s); i++ {
+		dp[i]=make([]bool, len(s))
+	}
+	for i := len(s)-1; i >= 0; i-- {
+		for j := i; j < len(s); j++ {
+			if s[i]!=s[j] {
+				dp[i][j]=false
+			}else{
+				if i==j {
+					result++
+					dp[i][j]=true
+				}else if i-j==1 || j-i==1{
+					result++
+					dp[i][j]=true
+				}else{
+					
+					if dp[i+1][j-1] {
+						result++
+						dp[i][j]=true
+					}
+				}
+			}
+		}
+	}
+	return result
+}
