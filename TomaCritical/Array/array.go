@@ -54,21 +54,35 @@ func sortedSquares(nums []int) []int {
 
 // 209 Minimum Size Subarray Sum
 func minSubArrayLen(target int, nums []int) int {
+	// 加一个尾巴的0，来计算到最后一个数字
+	nums = append(nums, 0)
 	//滑动窗口
-	left:=0
-	sum:=nums[0]
-	minCount:=10000
-	if sum>=target {
-		return 1
+	minWindow := math.MaxInt
+	sum := 0
+	startIndex := 0
+	min := func(a, b int) int {
+		if a < b {
+			return a
+		}
+		return b
 	}
-
-
-	
-	if minCount==10000 {
+	for index := 0; index < len(nums); {
+		if sum < target {
+			sum += nums[index]
+			index++
+		} else {
+			// record
+			window:=index-startIndex
+			minWindow=min(window,minWindow)
+			// move
+			sum-=nums[startIndex]
+			startIndex++
+		}
+	}
+	if minWindow == math.MaxInt {
 		return 0
-	}else{
-		return minCount
 	}
+	return minWindow
 }
 
 // 59 Spiral Matrix II
