@@ -65,3 +65,35 @@ func reverseList(head *ListNode) *ListNode {
 	q.Next=p
 	return q
 }
+
+// 24 Swap Nodes in Pairs
+func swapPairs(head *ListNode) *ListNode {
+	// 0 or 1
+	if head==nil || head.Next==nil {
+		return head
+	}
+	p,q,r:=head,head.Next,head.Next.Next
+	head=q
+	for r!=nil && r.Next!=nil{
+		q.Next=p
+		p.Next=r.Next
+
+		p=r
+		q=r.Next
+		r=r.Next.Next
+	}
+	p.Next=r
+	q.Next=p
+	return head
+}
+
+// 19 Remove Nth Node From End of List
+func removeNthFromEnd(head *ListNode, n int) *ListNode {
+	// one node situation
+	if head.Next==nil {
+		return nil
+	}
+	
+
+
+}
