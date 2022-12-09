@@ -108,3 +108,43 @@ func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	r.Next=p.Next
 	return realHead.Next
 }
+
+// 面试题 02.07. Intersection of Two Linked Lists LCCI
+func getIntersectionNode(headA, headB *ListNode) *ListNode {
+	lenA,lenB:=0,0
+    p:=headA
+	for p!=nil{
+		p=p.Next
+		lenA++
+	}
+	p=headB
+	for p!=nil{
+		p=p.Next
+		lenB++
+	}
+	var q *ListNode
+	var diff int
+	if lenA>lenB {
+		diff=lenA-lenB
+		p=headB
+		q=headA
+	}else{
+		diff=lenB-lenA
+		p=headA
+		q=headB
+	}
+	for diff>0 {
+		diff--
+		q=q.Next
+	}
+	for p!=nil {
+		if p==q {
+			return p
+		}
+		p,q=p.Next,q.Next
+	}
+	return nil
+}
+
+
+

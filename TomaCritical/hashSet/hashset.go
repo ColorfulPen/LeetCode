@@ -70,3 +70,21 @@ func twoSum(nums []int, target int) []int {
 	return []int{0,0}
 }
 
+// 4Sum II
+func fourSumCount(nums1 []int, nums2 []int, nums3 []int, nums4 []int) int {
+	aMap:=make(map[int]int)
+	len:=len(nums1)
+	for i := 0; i < len; i++ {
+		for j := 0; j < len; j++ {
+			aMap[nums1[i]+nums2[j]]++
+		}
+	}
+	count:=0
+	for i := 0; i < len; i++ {
+		for j := 0; j < len; j++ {
+			count+=aMap[-nums3[i]-nums4[j]]
+		}
+	}
+	return count
+}
+
