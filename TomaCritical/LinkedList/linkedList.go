@@ -89,11 +89,22 @@ func swapPairs(head *ListNode) *ListNode {
 
 // 19 Remove Nth Node From End of List
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
-	// one node situation
+	// 若为一个节点
 	if head.Next==nil {
 		return nil
 	}
-	
-
-
+	// virtual head
+	virtualHead:=&ListNode{Next: head}
+	r:=&ListNode{Next: virtualHead}
+	p,q:=virtualHead,virtualHead
+	realHead:=p
+	for i := 0; i < n; i++ {
+		q=q.Next
+	}
+	for q!=nil{
+		r=r.Next
+		p,q=p.Next,q.Next
+	}
+	r.Next=p.Next
+	return realHead.Next
 }
