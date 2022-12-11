@@ -1,5 +1,9 @@
 package stringalgo
 
+import (
+	"strings"
+
+)
 
 // 344. Reverse String
 func reverseString(s []byte)  {
@@ -36,3 +40,38 @@ func reverseStr(s string, k int) string {
 	}
 	return string(sbytes)
 }
+
+// 剑指 Offer 05. 替换空格 LCOF
+func replaceSpace(s string) string {
+	return nil
+}
+
+// 151. Reverse Words in a String
+func reverseWords(s string) string {
+    startIndex:=0
+    for s[startIndex]==' '{
+        startIndex++
+    }
+	bytePool:=make([]byte,0)
+	res:=make([]byte,0)
+	for i := len(s)-1; i >= startIndex; i-- {
+		if s[i]==' ' {
+			// 把pool里的内容移动，同时清空pool
+			for i := len(bytePool)-1; i >= 0; i-- {
+				res = append(res, bytePool[i])
+				if i==0 {
+					res = append(res, ' ')
+				}
+			}
+			bytePool=make([]byte, 0)
+		}else{
+			bytePool = append(bytePool, s[i])
+		}
+	}
+	for i := len(bytePool)-1; i >= 0; i-- {
+		res = append(res, bytePool[i])
+
+	}
+	return string(res[:len(res)])
+}
+
