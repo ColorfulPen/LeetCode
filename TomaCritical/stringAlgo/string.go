@@ -1,9 +1,5 @@
 package stringalgo
 
-import (
-	"strings"
-
-)
 
 // 344. Reverse String
 func reverseString(s []byte)  {
@@ -75,3 +71,18 @@ func reverseWords(s string) string {
 	return string(res[:len(res)])
 }
 
+// 剑指 Offer 58 - II. 左旋转字符串 LCOF
+func reverseLeftWords(s string, n int) string {
+	reverseS :=func (s []byte,from,to int) string {
+		reverseRange:=to-from
+		for i := 0; i < reverseRange/2; i++ {
+			s[from+i],s[to-1-i]=s[to-1-i],s[from+i]
+		}
+		return string(s)
+	}
+	n=n%len(s)
+	s=reverseS([]byte(s),0,n)
+	s=reverseS([]byte(s),n,len(s))
+	s=reverseS([]byte(s),0,len(s))
+	return s
+}
