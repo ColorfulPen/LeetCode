@@ -51,3 +51,34 @@ func subMaxDepth(node *TreeNode,depth int) int{
 		return right
 	}
 }
+
+// 111. Minimum Depth of Binary Tree
+func minDepth(root *TreeNode) int {
+	return subMinDepth(root,0)
+}
+
+func subMinDepth(node *TreeNode,depth int)  int{
+	if node==nil {
+		return depth
+	}
+    if node.Left==nil && node.Right==nil{
+        return depth+1
+    }
+	var left,right int
+	if node.Left!=nil {
+		left=subMinDepth(node.Left,depth+1)
+	}else{
+		left=100000
+	}
+	if node.Right!=nil {
+		right=subMinDepth(node.Right,depth+1)
+	}else{
+		right=100000
+	}
+	if left<right {
+		return left
+	}else{
+		return right
+	}
+}
+
