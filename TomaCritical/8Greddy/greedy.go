@@ -52,3 +52,4 @@ func wiggleMaxLength(nums []int) int {
 	}
 	return count
 }
+
