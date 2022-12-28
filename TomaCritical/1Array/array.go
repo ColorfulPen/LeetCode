@@ -2,6 +2,69 @@ package array
 
 import "math"
 
+// sort Algorithm
+// https://blog.csdn.net/qq_51664685/article/details/124427443
+func bubbleSort(arr []int) {
+	for i := 0; i < len(arr)-1; i++ {
+		for j := 1; j < len(arr)-i; j++ {
+			if arr[j-1] > arr[j] {
+				arr[j-1], arr[j] = arr[j], arr[j-1]
+			}
+		}
+	}
+}
+
+func quickSort(arr []int, start, end int) {
+	if start >= end {
+		return
+	}
+	i, j := start, end
+	baseval := arr[i]
+	for i < j {
+		for i < j && arr[j] >= baseval {
+			j--
+		}
+		if i < j {
+			arr[i] = arr[j]
+			i++
+		}
+		for i < j && arr[i] <= baseval {
+			i++
+		}
+		if i < j {
+			arr[j] = arr[i]
+			j--
+		}
+	}
+	arr[i] = baseval
+
+	quickSort(arr, start, i-1)
+	quickSort(arr, i+1, end)
+}
+
+// 选择排序
+// 选择排序算法的原理如下：
+
+// ​ 1.首先在未排序序列中找到最小（大）元素，存放到排序序列的起始位置。
+
+// ​ 2.再从剩余未排序元素中继续寻找最小（大）元素，然后放到已排序序列的末尾。
+
+// ​ 3.重复第二步，直到所有元素均排序完毕。
+
+// 插入排序算法的原理如下：
+
+// ​ 1.从第一个元素开始，该元素可以认为已经被排序；
+
+// ​ 2.取出下一个元素，在已经排序的元素序列中从后向前扫描；
+
+// ​ 3.如果该元素（已排序）大于新元素，将该元素移到下一位置；
+
+// ​ 4.重复步骤3，直到找到已排序的元素小于或者等于新元素的位置；
+
+// ​ 5.将新元素插入到该位置后；
+
+// ​ 6.重复步骤2~5。
+
 // 704 Binary Search
 func search(nums []int, target int) int {
 	len := len(nums)
@@ -72,10 +135,10 @@ func minSubArrayLen(target int, nums []int) int {
 			index++
 		} else {
 			// record
-			window:=index-startIndex
-			minWindow=min(window,minWindow)
+			window := index - startIndex
+			minWindow = min(window, minWindow)
 			// move
-			sum-=nums[startIndex]
+			sum -= nums[startIndex]
 			startIndex++
 		}
 	}
