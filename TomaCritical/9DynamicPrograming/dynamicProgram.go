@@ -18,3 +18,37 @@ func max(a,b int)int{
 	}
 	return b
 }
+
+// 70爬楼梯
+func climbStairs(n int) int {
+	if n==1 {
+		return 1
+	}
+	dp:=make([]int,n+1)
+	dp[1]=1
+	dp[2]=2
+	for i := 3; i < n+1; i++ {
+		dp[i]=dp[i-1]+dp[i-2]
+	}
+	return dp[n]
+}
+
+// 746. 使用最小花费爬楼梯
+func minCostClimbingStairs(cost []int) int {
+	dp:=make([]int,len(cost)+1)
+	if len(cost)==1{
+		return 0
+	}
+	for i := 2; i < len(cost)+1; i++ {
+		dp[i]=min(dp[i-1]+cost[i-1],dp[i-2]+cost[i-2])	
+	}
+
+	return dp[len(cost)]
+}
+
+func min(a,b int)int{
+	if a<b {
+		return a	
+	}
+	return b
+}
