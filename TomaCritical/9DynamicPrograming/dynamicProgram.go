@@ -70,5 +70,34 @@ func uniquePaths(m int, n int) int {
 			dp[i][j]=dp[i][j-1]+dp[i-1][j]
 		}
 	}
+
 	return dp[m-1][n-1]
+}
+
+// 343. 整数拆分
+func integerBreak(n int) int {
+	dp:=make([]int,n+1)
+	dp[1]=1
+	for i := 2; i < n+1; i++ {
+		for j := 1; j <= i/2; j++ {
+			sub:=max(max(max(dp[j]*dp[i-j],j*(i-j)),dp[j]*(i-j)),j*dp[i-j])
+			dp[i]=max(sub,dp[i])
+		}
+	}
+	return dp[n]
+}
+
+// 96. 不同的二叉搜索树
+func numTrees(n int) int {
+	dp:=make([]int,n+1)
+	dp[0]=1
+	dp[1]=1
+	for i := 2; i < n+1; i++ {
+		sum:=0
+		for j := 1; j <= i; j++ {
+			sum+=dp[j-1]*dp[i-j]
+		}
+		dp[i]=sum
+	}
+	return dp[n]
 }
