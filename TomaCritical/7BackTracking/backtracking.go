@@ -1,6 +1,8 @@
 package backtracking
 
-import "sort"
+import (
+	"sort"
+)
 
 // 77. 组合
 func combine(n int, k int) [][]int {
@@ -143,35 +145,95 @@ func combinationSum2(candidates []int, target int) [][]int {
 // 131. 分割回文串
 func partition(s string) [][]string {
 	result := make([][]string, 0)
-	isPalid := func(str string,from,to int) bool {
-		length:=to-from
+	isPalid := func(str string, from, to int) bool {
+		length := to - from
 		for i := from; i <= from+length/2; i++ {
-			if str[i]!=str[to+from-1-i] {
+			if str[i] != str[to+from-1-i] {
 				return false
 			}
 		}
 		return true
 	}
-	var back func(s string,startIndex int,path []string)
-	back=func(s string, startIndex int, path []string) {
-		if startIndex==len(s) {
-			temp:=make([]string,len(path))
-			copy(temp,path)
+	var back func(s string, startIndex int, path []string)
+	back = func(s string, startIndex int, path []string) {
+		if startIndex == len(s) {
+			temp := make([]string, len(path))
+			copy(temp, path)
 			result = append(result, temp)
 			return
 		}
 
 		// 具体的回溯，画图计算会更好一些
-		for i :=  startIndex; i < len(s); i++ {
-			if isPalid(s,startIndex,i+1) {
+		for i := startIndex; i < len(s); i++ {
+			if isPalid(s, startIndex, i+1) {
 				path = append(path, s[startIndex:i+1])
-				back(s,i+1,path)
-				path=path[:len(path)-1]
+				back(s, i+1, path)
+				path = path[:len(path)-1]
 			}
 		}
 
 	}
 
-	back(s,0,[]string{})
+	back(s, 0, []string{})
+	return result
+}
+
+// 93. 复原 IP 地址
+func restoreIpAddresses(s string) []string {
+	result := make([]string, 0)
+	isValid := func(s string, from, to int) bool {
+		length := to - from
+		if (length > 1 && s[from] == '0') || length > 3 {
+			return false
+		}
+		num := 0
+		for i := from; i < to; i++ {
+			num *= 10
+			num += int(s[i] - '0')
+		}
+		if num > 255 {
+			return false
+		}
+		return true
+	}
+	var back func(s string, startIndex int, path []string)
+	back = func(s string, startIndex int, path []string) {
+		if startIndex == len(s) && len(path) == 4 {
+			temp := path[0] + "." + path[1] + "." + path[2] + "." + path[3]
+			result = append(result, temp)
+			return
+		}
+
+		for i := startIndex; i < len(s); i++ {
+			if isValid(s, startIndex, i+1) {
+				path = append(path, s[startIndex:i+1])
+				back(s, i+1, path)
+				path = path[:len(path)-1]
+			}
+		}
+	}
+	back(s, 0, []string{})
+	return result
+}
+
+// 78. 子集
+func subsets(nums []int) [][]int {
+	result := make([][]int, 0)
+	var back func(nums []int, startIndex int, path []int)
+	back = func(nums []int, startIndex int, path []int) {
+		// if startIndex==len(nums) {
+		temp := make([]int, len(path))
+		copy(temp, path)
+		result = append(result, temp)
+		// 	return
+		// }
+
+		for i := startIndex; i < len(nums); i++ {
+			path = append(path, nums[i])
+			back(nums, i+1, path)
+			path = path[:len(path)-1]
+		}
+	}
+	back(nums,0,[]int{})
 	return result
 }
