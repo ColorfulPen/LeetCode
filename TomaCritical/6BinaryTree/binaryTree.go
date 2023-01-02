@@ -1,5 +1,7 @@
 package binarytree
 
+import "math"
+
 type TreeNode struct {
 	Val   int
 	Left  *TreeNode
@@ -22,63 +24,118 @@ func isSymmetric(root *TreeNode) bool {
 	if root == nil {
 		return true
 	}
-	return subIsSymmetric(root.Left,root.Right)
+	return subIsSymmetric(root.Left, root.Right)
 }
 
-func subIsSymmetric(node1,node2 *TreeNode) bool{
+func subIsSymmetric(node1, node2 *TreeNode) bool {
 	if (node1 == nil && node2 != nil) || (node1 != nil && node2 == nil) {
 		return false
 	} else if node1 == nil && node2 == nil {
 		return true
 	}
-	return node1.Val==node2.Val && subIsSymmetric(node1.Left,node2.Right)  &&subIsSymmetric(node1.Right,node2.Left)
+	return node1.Val == node2.Val && subIsSymmetric(node1.Left, node2.Right) && subIsSymmetric(node1.Right, node2.Left)
 }
 
 // 104. Maximum Depth of Binary Tree
 func maxDepth(root *TreeNode) int {
-	return subMaxDepth(root,0)
+	return subMaxDepth(root, 0)
 }
 
-func subMaxDepth(node *TreeNode,depth int) int{
-	if node==nil {
+func subMaxDepth(node *TreeNode, depth int) int {
+	if node == nil {
 		return depth
 	}
-	left:=subMaxDepth(node.Left,depth+1)
-	right:=subMaxDepth(node.Right,depth+1)
-	if left>right {
+	left := subMaxDepth(node.Left, depth+1)
+	right := subMaxDepth(node.Right, depth+1)
+	if left > right {
 		return left
-	}else{
+	} else {
 		return right
 	}
 }
 
 // 111. Minimum Depth of Binary Tree
 func minDepth(root *TreeNode) int {
-	return subMinDepth(root,0)
+	return subMinDepth(root, 0)
 }
 
-func subMinDepth(node *TreeNode,depth int)  int{
-	if node==nil {
+func subMinDepth(node *TreeNode, depth int) int {
+	if node == nil {
 		return depth
 	}
-    if node.Left==nil && node.Right==nil{
-        return depth+1
-    }
-	var left,right int
-	if node.Left!=nil {
-		left=subMinDepth(node.Left,depth+1)
-	}else{
-		left=100000
+	if node.Left == nil && node.Right == nil {
+		return depth + 1
 	}
-	if node.Right!=nil {
-		right=subMinDepth(node.Right,depth+1)
-	}else{
-		right=100000
+	var left, right int
+	if node.Left != nil {
+		left = subMinDepth(node.Left, depth+1)
+	} else {
+		left = 100000
 	}
-	if left<right {
+	if node.Right != nil {
+		right = subMinDepth(node.Right, depth+1)
+	} else {
+		right = 100000
+	}
+	if left < right {
 		return left
-	}else{
+	} else {
 		return right
 	}
 }
 
+// 222. 完全二叉树的节点个数
+func countNodes(root *TreeNode) int {
+	isComplete := func(node *TreeNode) int {
+		// assume not null
+		left, right := node.Left, node.Right
+		height := 1
+		for left != nil && right != nil {
+			left = left.Left
+			right = right.Right
+			height++
+		}
+		if left == nil && right == nil {
+			return int(math.Pow(2, float64(height)) - 1)
+		}
+		return -1
+	}
+
+	var recursiveCount func(node *TreeNode) int
+	recursiveCount = func(node *TreeNode) int {
+		if node == nil {
+			return 0
+		}
+		totalNum := isComplete(node)
+		if totalNum != -1 {
+			return totalNum
+		}
+		return 1 + recursiveCount(node.Left) + recursiveCount(node.Right)
+	}
+	return recursiveCount(root)
+}
+
+// 110. 平衡二叉树
+func isBalanced(root *TreeNode) bool {
+	if root == nil {
+		return true
+	}
+	leftHeight, rightHeight := countHeight(root.Left, 1), countHeight(root.Right, 1)
+
+	if leftHeight-rightHeight > 1 || rightHeight-leftHeight > 1 {
+		return false
+	}
+	return isBalanced(root.Left) && isBalanced(root.Right)
+}
+
+func countHeight(node *TreeNode, height int) int {
+	if node == nil {
+		return height - 1
+	}
+	leftHeight := countHeight(node.Left, height+1)
+	rightHeight := countHeight(node.Right, height+1)
+	if leftHeight > rightHeight {
+		return leftHeight
+	}
+	return rightHeight
+}
