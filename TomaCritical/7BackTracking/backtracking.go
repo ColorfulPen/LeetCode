@@ -145,8 +145,8 @@ func partition(s string) [][]string {
 	result := make([][]string, 0)
 	isPalid := func(str string,from,to int) bool {
 		length:=to-from
-		for i := from; i < from+length/2; i++ {
-			if str[i]!=str[length-1-i] {
+		for i := from; i <= from+length/2; i++ {
+			if str[i]!=str[to+from-1-i] {
 				return false
 			}
 		}
@@ -161,13 +161,12 @@ func partition(s string) [][]string {
 			return
 		}
 
+		// 具体的回溯，画图计算会更好一些
 		for i :=  startIndex; i < len(s); i++ {
-			for j := i+1; j < len(s)+1; j++ {
-				if isPalid(s,i,j) {
-					path = append(path, s[i:j])
-					back(s,j,path)
-					path=path[:len(path)-1]
-				}
+			if isPalid(s,startIndex,i+1) {
+				path = append(path, s[startIndex:i+1])
+				back(s,i+1,path)
+				path=path[:len(path)-1]
 			}
 		}
 
