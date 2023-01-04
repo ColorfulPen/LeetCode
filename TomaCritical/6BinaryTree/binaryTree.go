@@ -1,6 +1,9 @@
 package binarytree
 
-import "math"
+import (
+	"math"
+	"strconv"
+)
 
 type TreeNode struct {
 	Val   int
@@ -139,3 +142,52 @@ func countHeight(node *TreeNode, height int) int {
 	}
 	return rightHeight
 }
+
+// 257. 二叉树的所有路径
+func binaryTreePaths(root *TreeNode) []string {
+	res := make([]string, 0)
+	if root == nil {
+		return res
+	}
+	var back func(node *TreeNode, path string)
+	back = func(node *TreeNode, path string) {
+		if node.Left == nil && node.Right == nil {
+			path += strconv.Itoa(node.Val)
+			res = append(res, path)
+			return
+		}
+		path = path + strconv.Itoa(node.Val)
+		if node.Left!=nil {
+			back(node.Left, path+"->")
+		}
+		if node.Right!=nil {
+			back(node.Right,path+"->")			
+		}
+	}
+	back(root,"")
+	return res
+}
+
+// 404. 左叶子之和
+func sumOfLeftLeaves(root *TreeNode) int {
+	if root==nil {
+		return 0
+	}
+	var handle func(node *TreeNode,left bool) int
+	handle=func(node *TreeNode,left bool) int {
+		if node==nil {
+			return 0
+		}
+		if node.Left==nil && node.Right==nil{
+			if left {
+				return node.Val
+			}else{
+				return 0
+			}
+		}
+		return handle(node.Left,true)+handle(node.Right,false)
+	}
+	return handle(root.Left,true)+handle(root.Right,false)
+}
+
+
