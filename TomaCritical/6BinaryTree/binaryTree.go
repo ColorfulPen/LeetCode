@@ -239,3 +239,59 @@ func hasPathSum(root *TreeNode, targetSum int) bool {
 	return count>0
 }
 
+// 106. 从中序与后序遍历序列构造二叉树
+func buildTree(inorder []int, postorder []int) *TreeNode {
+	// LNR  LRN
+	findMid:=func (inorder []int,mid int) int {
+		for i := 0; i < len(inorder); i++ {
+			if inorder[i]==mid {
+				return i
+			}
+		}
+		return -1
+	}
+	var buildTrees func(inorder,postorder []int) *TreeNode
+	buildTrees=func(inorder, postorder []int) *TreeNode {
+		if len(inorder)==1 {
+			return &TreeNode{Val: inorder[0]}
+		}
+		midNum:=postorder[len(postorder)-1]
+		node:=TreeNode{Val: midNum}
+		index:=findMid(inorder,midNum)
+		if index!=0 {
+			node.Left=buildTree(inorder[:index],postorder[:index])
+		}
+		if  len(inorder)-index!=1{
+			node.Right=buildTree(inorder[index+1:],postorder[index:len(postorder)-1])
+		}
+		return &node
+	}
+	return buildTrees(inorder,postorder)
+}
+
+// 654. 最大二叉树
+func constructMaximumBinaryTree(nums []int) *TreeNode {
+	findMaxIndex:=func (nums []int) (int,int) {
+		max,res:=-1,-1
+		for i := 0; i < len(nums); i++ {
+			if nums[i]>max {
+				max=nums[i]
+				res=i
+			}
+		}
+		return max,res
+	}
+	var buildMaxBinaryTree func(nums []int)*TreeNode
+	buildMaxBinaryTree=func(nums []int) *TreeNode {
+		max,index:=findMaxIndex(nums)
+		node:=TreeNode{Val: max}
+		if index>0 {
+			node.Left=buildMaxBinaryTree(nums[:index])
+		}
+		if len(nums)-index>1 {
+			node.Right=buildMaxBinaryTree(nums[index+1:])
+		}
+		return &node
+	}
+	return buildMaxBinaryTree(nums)
+}
