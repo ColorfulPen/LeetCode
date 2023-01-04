@@ -190,4 +190,52 @@ func sumOfLeftLeaves(root *TreeNode) int {
 	return handle(root.Left,true)+handle(root.Right,false)
 }
 
+// 513. 找树左下角的值
+func findBottomLeftValue(root *TreeNode) int {
+	res:=root.Val
+	maxDepth:=1
+	var dfs func(node *TreeNode,depth int)
+	dfs=func(node *TreeNode, depth int) {
+		if node.Left==nil && node.Right==nil {
+			if depth>=maxDepth {
+				res=node.Val
+				maxDepth=depth
+			}
+			return
+		}
+		if node.Right!=nil {
+			dfs(node.Right,depth+1)
+		}
+		if node.Left!=nil {
+			dfs(node.Left,depth+1)
+		}
+	}
+	dfs(root,1)
+	return res
+}
+
+// 112. 路径总和
+func hasPathSum(root *TreeNode, targetSum int) bool {
+	if root==nil {
+		return false
+	}
+	count:=0
+	var dfs func(node *TreeNode,sum int)
+	dfs=func(node *TreeNode, sum int) {
+		sum+=node.Val
+		if node.Left==nil&&node.Right==nil {
+			if targetSum==sum {
+				count++
+			}
+		}
+		if node.Left!=nil {
+			dfs(node.Left,sum)
+		}
+		if node.Right!=nil {
+			dfs(node.Right,sum)
+		}
+	}
+	dfs(root,0)
+	return count>0
+}
 
