@@ -322,3 +322,10 @@ func searchBST(root *TreeNode, val int) *TreeNode {
 		return searchBST(root.Right,val)
 	}
 }
+
+// 99. 恢复二叉搜索树
+func recoverTree(root *TreeNode)  {
+    // 在一个三角结构中：父节点：左or右节点 左右节点
+	// 在子结构中：父节点，
+}
+
