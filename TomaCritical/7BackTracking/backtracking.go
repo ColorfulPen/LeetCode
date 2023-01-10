@@ -321,3 +321,39 @@ func permute(nums []int) [][]int {
 	back(nums,[]int{},numMap)
 	return result
 }
+
+// 47. 全排列 II
+// 注意这是层之间与深度之间的去重
+func permuteUnique(nums []int) [][]int {
+	sort.Ints(nums)
+	result := make([][]int, 0)
+	indexMap:=make(map[int]struct{},0)
+	var back func(nums,path []int,indexMap map[int]struct{})
+	back=func(nums, path []int,indexMap map[int]struct{}) {
+		if len(path)==len(nums) {
+			temp:=make([]int,len(path))
+			copy(temp,path)
+			result = append(result, temp)
+			return
+		}
+
+		levelUsed:=make(map[int]struct{},0)
+		for i := 0; i < len(nums); i++ {
+			if _,ok:=indexMap[i];ok {
+				continue
+			}
+			if _,ok:=levelUsed[nums[i]];ok {
+				continue
+			}
+
+			path = append(path, nums[i])
+			indexMap[i]=struct{}{}
+			levelUsed[nums[i]]=struct{}{}
+			back(nums,path,indexMap)
+			path=path[:len(path)-1]
+			delete(indexMap,i)
+		}
+	}
+	back(nums,[]int{},indexMap)
+	return result
+}
