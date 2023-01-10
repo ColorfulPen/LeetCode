@@ -237,3 +237,87 @@ func subsets(nums []int) [][]int {
 	back(nums,0,[]int{})
 	return result
 }
+
+// 90.子集II
+func subsetsWithDup(nums []int) [][]int {
+	sort.Ints(nums)
+	result:=make([][]int,0)
+	var back func(nums []int,startIndex int,path []int)
+	back=func(nums []int, startIndex int, path []int) {
+		// add to result
+		temp:=make([]int,len(path))
+		copy(temp,path)
+		result = append(result, temp)
+
+		for i := startIndex; i < len(nums); i++ {
+			if i>startIndex && nums[i]==nums[i-1] {
+				continue
+			}			
+			path = append(path, nums[i])
+			back(nums,i+1,path)
+			path=path[:len(path)-1]
+		}
+	}
+	back(nums,0,[]int{})
+	return result
+}
+
+// 491. 递增子序列
+func findSubsequences(nums []int) [][]int {
+	result:=make([][]int,0)
+	var back func(nums []int,startIndex int,path []int)
+	back=func(nums []int, startIndex int, path []int) {
+		if len(path)>=2 {
+			temp:=make([]int,len(path))
+			copy(temp,path)
+			result = append(result, temp)
+		}
+
+		numSet:=make(map[int]struct{},0)
+		for i := startIndex; i < len(nums); i++ {
+			// 因为没有排序所以不能用
+			// if i>startIndex && nums[i]==nums[i-1] {
+			// 	continue
+			// }
+			if _,ok:=numSet[nums[i]];ok {
+				continue
+			}
+			if len(path)==0 || path[len(path)-1]<=nums[i] {
+				numSet[nums[i]]=struct{}{}
+				path=append(path, nums[i])
+				back(nums,i+1,path)
+				path=path[:len(path)-1]
+			}
+		}
+	}
+	back(nums,0,[]int{})
+	return result
+}
+
+// 46. 全排列
+func permute(nums []int) [][]int {
+	result := make([][]int, 0)
+	numMap:=make(map[int]struct{},0)
+	var back func(nums,path []int,numMap map[int]struct{})
+	back=func(nums, path []int,numMap map[int]struct{}) {
+		if len(path)==len(nums) {
+			temp:=make([]int,len(path))
+			copy(temp,path)
+			result = append(result, temp)
+			return
+		}
+
+		for i := 0; i < len(nums); i++ {
+			if _,ok:=numMap[nums[i]];ok {
+				continue
+			}
+			path = append(path, nums[i])
+			numMap[nums[i]]=struct{}{}
+			back(nums,path,numMap)
+			path=path[:len(path)-1]
+			delete(numMap,nums[i])
+		}
+	}
+	back(nums,[]int{},numMap)
+	return result
+}
