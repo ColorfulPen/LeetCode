@@ -55,11 +55,11 @@ func wiggleMaxLength(nums []int) int {
 
 // 122. Best Time to Buy and Sell Stock II
 func maxProfit(prices []int) int {
-	max:=0
+	max := 0
 	for i := 1; i < len(prices); i++ {
-		profit:=prices[i]-prices[i-1]
-		if  profit>0{
-			max+=profit
+		profit := prices[i] - prices[i-1]
+		if profit > 0 {
+			max += profit
 		}
 	}
 	return max
@@ -67,19 +67,75 @@ func maxProfit(prices []int) int {
 
 // 55. Jump Game
 func canJump(nums []int) bool {
-	farest:=0
+	farest := 0
 	for i := 0; i <= farest; i++ {
-		farest=max(farest,i+nums[i])
-		if farest>=len(nums) {
+		farest = max(farest, i+nums[i])
+		if farest >= len(nums) {
 			return true
 		}
 	}
 	return false
 }
 
-func max(a,b int)int{
-	if a>b {
+func max(a, b int) int {
+	if a > b {
 		return a
 	}
 	return b
+}
+
+// 45. 跳跃游戏 II
+func jump(nums []int) int {
+	// 记录最远的距离，在这距离之间查找第二远的距离，并记录，每记录一次加一
+	if len(nums)==1 {
+		return 0
+	}
+	count := 1
+	farest := nums[0]
+	i := 0
+	for farest < len(nums)-1 {
+		maxDis := 0
+		for i <= farest {
+			temp := i + nums[i]
+			maxDis = max(maxDis, temp)
+			i++
+		}
+		count++
+		farest = maxDis
+		if farest >= len(nums)-1 {
+			return count
+		}
+	}
+
+	return count
+}
+
+// 1005. K 次取反后最大化的数组和
+func largestSumAfterKNegations(nums []int, k int) int {
+	specialSort:=func (nums *[]int)  {
+		sort.Ints(*nums)
+	}
+	specialSort(&nums)
+	index:=0
+	for i := 0; i < k; i++ {
+		if index==len(nums) {
+			if (k-i)%2==1 {
+				nums[index-1]=-nums[index-1]
+			}
+			return sum(nums)
+		}
+		if nums[index]<0 {
+			nums[index]=-nums[index]
+		}
+		index++
+	}
+	return sum(nums)
+}
+
+func sum(nums []int) int{
+	total:=0
+	for i := 0; i < len(nums); i++ {
+		total+=nums[i]
+	}
+	return total
 }
