@@ -139,3 +139,40 @@ func sum(nums []int) int{
 	}
 	return total
 }
+
+// 134. 加油站
+func canCompleteCircuit(gas []int, cost []int) int {
+	rest:=0
+	rightIndex:=len(cost)-1
+	for i := 0; i <= rightIndex; i++ {
+		rest+=gas[i]-cost[i]
+		for rest<0 {
+			rest+=gas[rightIndex]-cost[rightIndex]
+			if rightIndex==i {
+				return -1
+			}
+			rightIndex--
+		}
+	}
+	return (rightIndex+1)%len(cost)
+}
+
+// 135. 分发糖果
+func candy(ratings []int) int {
+	count:=0
+	candy:=make([]int,len(ratings))
+	for i := 1; i < len(ratings); i++ {
+		if ratings[i]>ratings[i-1] {
+			candy[i]=candy[i-1]+1
+		}
+	}
+	for i := len(ratings)-2; i >=0 ; i-- {
+		if ratings[i]>ratings[i+1] && candy[i]<=candy[i+1]{
+            candy[i]=candy[i+1]+1
+		}
+	}
+    for i:=0;i<len(ratings);i++{
+        count+=candy[i]
+    }
+	return count+len(ratings)
+}
