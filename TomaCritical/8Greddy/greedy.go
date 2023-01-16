@@ -176,3 +176,37 @@ func candy(ratings []int) int {
     }
 	return count+len(ratings)
 }
+
+// 860. 柠檬水找零
+func lemonadeChange(bills []int) bool {
+	rest:=make([]int,2)
+	for i := 0; i < len(bills); i++ {
+		if bills[i]==5 {
+			rest[0]++
+		}else if bills[i]==10{
+			rest[0]--
+			rest[1]++
+			if rest[0]<0 {
+				return false
+			}
+		}else{
+			if rest[1]>0 {
+				rest[1]--
+				if rest[0]>0 {
+					rest[0]--
+				}else{
+					return false
+				}
+			}else{
+				if rest[0]>2 {
+					rest[0]=rest[0]-3
+				}else{
+					return false
+				}
+			}
+		}
+	}
+	return true
+}
+
+
