@@ -3,6 +3,8 @@ package binarytree
 import (
 	"math"
 	"strconv"
+
+	"github.com/go-playground/locales/da"
 )
 
 type TreeNode struct {
@@ -323,9 +325,47 @@ func searchBST(root *TreeNode, val int) *TreeNode {
 	}
 }
 
-// 99. 恢复二叉搜索树
-func recoverTree(root *TreeNode)  {
-    // 在一个三角结构中：父节点：左or右节点 左右节点
-	// 在子结构中：父节点，
+// 98. 验证二叉搜索树
+func isValidBST(root *TreeNode) bool {
+	return subIsValidBST(root,math.MinInt,math.MaxInt)
 }
 
+func subIsValidBST(root *TreeNode,min,max int) bool{
+	if root==nil {
+		return true
+	}
+	if root.Left!=nil && (root.Val<=root.Left.Val || min>=root.Left.Val){
+		return false
+	}
+	if root.Right!=nil && (root.Val>=root.Right.Val || max<=root.Right.Val){
+		return false
+	}
+	return subIsValidBST(root.Left,min,root.Val)&&subIsValidBST(root.Right,root.Val,max)
+}
+
+// 530. 二叉搜索树的最小绝对差
+func getMinimumDifference(root *TreeNode) int {
+	arr:=make([]int,0)
+	var getSubDiff func(root *TreeNode)
+	getSubDiff=func (root *TreeNode)  {
+		if root==nil {
+			return
+		}
+		if root.Left!=nil {
+			getSubDiff(root.Left)
+		}
+		arr = append(arr, root.Val)
+		if root.Right!=nil {
+			getSubDiff(root.Right)
+		}
+	}
+	getSubDiff(root)
+	min:=math.MaxInt
+	for i := 0; i < len(arr)-1; i++ {
+		diff:=arr[i+1]-arr[i]
+		if diff<min {
+			min=diff
+		}
+	}
+	return min
+}
