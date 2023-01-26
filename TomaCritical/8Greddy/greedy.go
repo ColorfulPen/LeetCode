@@ -41,7 +41,7 @@ func wiggleMaxLength(nums []int) int {
 			break
 		}
 	}
-	for i := startIndex+1; i < len(nums); i++ {
+	for i := startIndex + 1; i < len(nums); i++ {
 		if nums[i] > nums[i-1] && !flag {
 			count++
 			flag = true
@@ -53,3 +53,33 @@ func wiggleMaxLength(nums []int) int {
 	return count
 }
 
+// 122. Best Time to Buy and Sell Stock II
+func maxProfit(prices []int) int {
+	max:=0
+	for i := 1; i < len(prices); i++ {
+		profit:=prices[i]-prices[i-1]
+		if  profit>0{
+			max+=profit
+		}
+	}
+	return max
+}
+
+// 55. Jump Game
+func canJump(nums []int) bool {
+	farest:=0
+	for i := 0; i <= farest; i++ {
+		farest=max(farest,i+nums[i])
+		if farest>=len(nums) {
+			return true
+		}
+	}
+	return false
+}
+
+func max(a,b int)int{
+	if a>b {
+		return a
+	}
+	return b
+}
