@@ -55,4 +55,51 @@ func levelOrder_Recursion(root *TreeNode) [][]int {
 	return res
 }
 
+// 501. 二叉搜索树中的众数
+func findMode(root *TreeNode) []int {
+	count,maxCount:=0,1
+	res:=make([]int,0)
+	var pre *TreeNode
+	pre=nil
+	var traverse func(node *TreeNode)
+
+	traverse=func(node *TreeNode) {
+		if node==nil {
+			return
+		}
+		traverse(node.Left)
+
+		if pre==nil {
+			// res = append(res, node.Val)
+			count=1
+		}else if pre.Val==node.Val {
+			count++
+		}else{
+			// if count>maxCount {
+			// 	maxCount=count
+			// 	res=res[:0]
+			// 	res = append(res, pre.Val)
+			// }else if count==maxCount {
+			// 	res=append(res, pre.Val)
+			// }
+			count=1
+		}
+
+		if count==maxCount {
+			res = append(res, node.Val)
+		}
+		if count>maxCount {
+			res=res[:0]
+			maxCount=count
+			res = append(res, node.Val)
+		}
+		pre=node
+
+		traverse(node.Right)
+	}
+
+	traverse(root)
+	return res
+}
+
 

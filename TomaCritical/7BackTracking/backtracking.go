@@ -237,3 +237,123 @@ func subsets(nums []int) [][]int {
 	back(nums,0,[]int{})
 	return result
 }
+
+// 90.子集II
+func subsetsWithDup(nums []int) [][]int {
+	sort.Ints(nums)
+	result:=make([][]int,0)
+	var back func(nums []int,startIndex int,path []int)
+	back=func(nums []int, startIndex int, path []int) {
+		// add to result
+		temp:=make([]int,len(path))
+		copy(temp,path)
+		result = append(result, temp)
+
+		for i := startIndex; i < len(nums); i++ {
+			if i>startIndex && nums[i]==nums[i-1] {
+				continue
+			}			
+			path = append(path, nums[i])
+			back(nums,i+1,path)
+			path=path[:len(path)-1]
+		}
+	}
+	back(nums,0,[]int{})
+	return result
+}
+
+// 491. 递增子序列
+func findSubsequences(nums []int) [][]int {
+	result:=make([][]int,0)
+	var back func(nums []int,startIndex int,path []int)
+	back=func(nums []int, startIndex int, path []int) {
+		if len(path)>=2 {
+			temp:=make([]int,len(path))
+			copy(temp,path)
+			result = append(result, temp)
+		}
+
+		numSet:=make(map[int]struct{},0)
+		for i := startIndex; i < len(nums); i++ {
+			// 因为没有排序所以不能用
+			// if i>startIndex && nums[i]==nums[i-1] {
+			// 	continue
+			// }
+			if _,ok:=numSet[nums[i]];ok {
+				continue
+			}
+			if len(path)==0 || path[len(path)-1]<=nums[i] {
+				numSet[nums[i]]=struct{}{}
+				path=append(path, nums[i])
+				back(nums,i+1,path)
+				path=path[:len(path)-1]
+			}
+		}
+	}
+	back(nums,0,[]int{})
+	return result
+}
+
+// 46. 全排列
+func permute(nums []int) [][]int {
+	result := make([][]int, 0)
+	numMap:=make(map[int]struct{},0)
+	var back func(nums,path []int,numMap map[int]struct{})
+	back=func(nums, path []int,numMap map[int]struct{}) {
+		if len(path)==len(nums) {
+			temp:=make([]int,len(path))
+			copy(temp,path)
+			result = append(result, temp)
+			return
+		}
+
+		for i := 0; i < len(nums); i++ {
+			if _,ok:=numMap[nums[i]];ok {
+				continue
+			}
+			path = append(path, nums[i])
+			numMap[nums[i]]=struct{}{}
+			back(nums,path,numMap)
+			path=path[:len(path)-1]
+			delete(numMap,nums[i])
+		}
+	}
+	back(nums,[]int{},numMap)
+	return result
+}
+
+// 47. 全排列 II
+// 注意这是层之间与深度之间的去重
+func permuteUnique(nums []int) [][]int {
+	sort.Ints(nums)
+	result := make([][]int, 0)
+	indexMap:=make(map[int]struct{},0)
+	var back func(nums,path []int,indexMap map[int]struct{})
+	back=func(nums, path []int,indexMap map[int]struct{}) {
+		if len(path)==len(nums) {
+			temp:=make([]int,len(path))
+			copy(temp,path)
+			result = append(result, temp)
+			return
+		}
+
+		levelUsed:=make(map[int]struct{},0)
+		for i := 0; i < len(nums); i++ {
+			if _,ok:=indexMap[i];ok {
+				continue
+			}
+			if _,ok:=levelUsed[nums[i]];ok {
+				continue
+			}
+
+			path = append(path, nums[i])
+			indexMap[i]=struct{}{}
+			levelUsed[nums[i]]=struct{}{}
+			back(nums,path,indexMap)
+			path=path[:len(path)-1]
+			delete(indexMap,i)
+		}
+	}
+	back(nums,[]int{},indexMap)
+	return result
+}
